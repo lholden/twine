@@ -1,0 +1,19 @@
+PATH
+  remote: .
+  specs:
+    twine (0.0.1)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    minitest (2.3.1)
+    rake (0.9.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bundler (~> 1.0.0)
+  minitest (~> 2.3.0)
+  rake
+  twine!

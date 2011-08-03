@@ -1,6 +1,8 @@
 module Twine
   module ChildMixin
     def start
+      return if running?
+
       unless methods.include? "run"
         raise ArgumentError, "a run method must be defined!"
       end
@@ -8,8 +10,7 @@ module Twine
       # ensure that we don't make a zombie of our child
       at_exit { join if Process.pid == Process.getpgrp }
 
-      @_twine_child_pid = Process.fork do
-        normalize_traps
+      @_twine_child_pid = Twine.clean_fork do
         run
       end
     end
@@ -52,10 +53,6 @@ module Twine
 
     def pid
       @_twine_child_pid
-    end
-  protected
-    def normalize_traps
-      (Signal.list.keys - ['VTALRM']).each {|s| trap(s, 'DEFAULT')}
     end
   end
 end

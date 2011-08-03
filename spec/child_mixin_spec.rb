@@ -1,6 +1,6 @@
 require File.expand_path('spec_helper', File.dirname(__FILE__))
 
-describe Twine::Child do
+describe Twine::ChildMixin do
   before do
   end
 
