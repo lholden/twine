@@ -3,6 +3,12 @@
 #
 # This stuff will look a little better with Twine::Pool implemented. 
 #
+# start the daemon with:
+#   ruby daemon.rb start
+#
+# for help:
+#   ruby daemon.rb 
+#
 
 require "rubygems"
 require "bundler/setup"
