@@ -1,3 +1,10 @@
+# A light-weight forking library.
+# https://github.com/lholden/twine
+#
+# Author::    Lori Holden  (mailto:email@loriholden.com)
+# Copyright:: Copyright (c) 2011 Lori Holden.
+# License::   See LICENSE.txt for details.
+
 module Twine
   autoload :Child, 'twine/child'
   autoload :ChildMixin, 'twine/child_mixin'
@@ -9,9 +16,12 @@ module Twine
   DEV_NULL = "/dev/null"
 
   # Allow the current process to become backgrounded
-  # :pid_file  => path, or nil
-  # :output_to => path, io, or nil
-  # returns process group id
+  #
+  # options:
+  #   :pid_file  => path, or nil
+  #   :output_to => path, io, or nil
+  #
+  # returns the process group id
   def self.daemonize(options = {})
     options = { 
       :chdir_path => '/',
@@ -35,6 +45,7 @@ module Twine
     sid
   end
   
+  # Cleanly fork off a new process
   def self.clean_fork
     (pid = Process.fork) and return pid
 
@@ -51,7 +62,9 @@ module Twine
   end
 
 protected
-  def self.setup_pid_file(path)
+
+  # Create a pid file for the current process
+  def self.setup_pid_file(path) #:nodoc:
     raise(PidFileException, "Pid file #{path} already present!") if File.file?(path)
     pid = Process.pid
 
@@ -63,7 +76,9 @@ protected
     end
   end
 
-  def self.redirect_std_io(output_to)
+  # Redirect STDERR and STDOUT to the specified file/io. 
+  # Redirect STDIO to null.
+  def self.redirect_std_io(output_to) #:nodoc:
     STDIN.reopen DEV_NULL
 
     return if output_to.nil?
@@ -80,7 +95,8 @@ protected
     STDERR.sync = true
   end
 
-  def self.close_nonstd_io
+  # Make sure that no IO connections follow us over to the new forked process
+  def self.close_nonstd_io #:nodoc:
     ObjectSpace.each_object(IO) do |io|
       next if [STDIN, STDOUT, STDERR].include?(io)
  
@@ -91,7 +107,8 @@ protected
     end
   end
 
-  def self.normalize_traps
+  # Make sure that no traps follow us over to the new forked process
+  def self.normalize_traps #:nodoc:
     (Signal.list.keys - ['VTALRM']).each {|s| trap(s, 'DEFAULT')}
   end
 
