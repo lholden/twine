@@ -27,7 +27,9 @@ Check out the example at https://github.com/lholden/twine/tree/master/examples/d
 
 ## Examples
 
-See the `examples` directory more detailed examples, including uses of backgrounding, children, and IPC (ZeroMQ).
+### IPC / ZeroMQ, options parsing, advanced examples
+
+Please see the [examples directory] [examples].
 
 ### Background a process
 ```ruby
@@ -96,4 +98,5 @@ Copyright (c) 2011 Lori Holden. See LICENSE.txt for further details.
 
 
 [optitron]: https://github.com/joshbuddy/optitron  "Sensible, minimal simple options parsing and dispatching for Ruby. Build a CLI with no fuss."
-[ZeroMQ]: http://www.zeromq.org/  "The Intelligent Transport Layer"
+[zeromq]: http://www.zeromq.org/  "The Intelligent Transport Layer"
+[examples]: https://github.com/lholden/twine/tree/master/examples  "Examples of using Twine"
