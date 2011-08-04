@@ -1,9 +1,7 @@
-#!/bin/env ruby
+#!/usr/bin/env ruby
 
 #
-# This stuff will look a lot better with Twine::Pool implemented. 
-# Also looking into a crash issue that happens when the children are 
-# started after the master's 0mq socket is setup.
+# This stuff will look a little better with Twine::Pool implemented. 
 #
 
 require "rubygems"
@@ -16,42 +14,11 @@ require 'optitron'
 ROOT_PATH = File.expand_path(File.dirname(__FILE__))
 TMP_PATH = File.join(ROOT_PATH, 'tmp')
 PID_FILE = File.join(TMP_PATH, 'master.pid')
-LOG_FILE = File.join(TMP_PATH, 'master.log')
-IPC_FILE = File.join(TMP_PATH, 'master.ipc')
+LOG_FILE = File.join(TMP_PATH, 'daemon.log')
+IPC_FILE = File.join(TMP_PATH, 'dispatcher.ipc')
 
-class Slave
-  include Twine::ChildMixin
-
-  def run
-    puts "#{Process.pid}: Started"
-    ctx = ZMQ::Context.new(1)
-    @socket = ctx.socket(ZMQ::PULL)
-    @socket.connect("ipc://#{IPC_FILE}")
-    @socket.setsockopt(ZMQ::LINGER, 0)
-
-    main_loop
-  end
-
-protected
-  def main_loop
-    @running = true
-    trap('TERM') { @running = false }
-    begin
-      while @running do
-        while msg = @socket.recv_string(ZMQ::NOBLOCK) do
-          puts "#{Process.pid}: I just consumed: #{msg}"
-        end
-        sleep 2
-      end
-    ensure
-      puts "#{Process.pid}: Shutting Down"
-      @socket.close
-    end
-
-  rescue ZMQ::SocketError => e
-    puts "Socket terminated: #{e.message}"
-  end
-end
+require File.join(ROOT_PATH, 'dispatcher')
+require File.join(ROOT_PATH, 'consumer')
 
 class Master
   include Optitron::ClassDsl
@@ -62,15 +29,14 @@ class Master
     Twine.daemonize(:pid_file => PID_FILE, :output_to => LOG_FILE)
     puts "\n\n\nMaster: Started"
 
-    @slaves = [Slave.new, Slave.new, Slave.new]
-    @slaves.each {|s| s.start}
+    slaves = [Dispatcher.new]
+    3.times {slaves << Consumer.new}
 
-    ctx = ZMQ::Context.new(1)
-    @socket = ctx.socket(ZMQ::PUSH)
-    @socket.bind("ipc://#{IPC_FILE}")
-    @socket.setsockopt(ZMQ::LINGER, 0)
+    slaves.each {|s| s.start}
+    trap('TERM') { slaves.each {|s| s.stop} }
+    slaves.each {|s| s.join}
 
-    main_loop
+    puts "Master: Shutting down"
   rescue Twine::PidFileException => e
     die(e.message)
   end
@@ -94,23 +60,6 @@ class Master
   end
 
 protected
-  def main_loop
-    @active = true
-    trap('TERM') { @active = false }
-    begin
-      while @active do
-        msg = rand(36**10).to_s(36)
-        @socket.send_string(msg)
-        puts "Master: #{msg}"
-        sleep 1
-      end
-    ensure
-      puts "Master: Shutting down"
-      @socket.close 
-      @slaves.each {|s| s.stop; s.join}
-    end
-  end
-
   def die(msg)
     STDERR << msg << "\n"
     exit 1
