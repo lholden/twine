@@ -82,7 +82,7 @@ As a MixIn
  c.kill # oi... that was annoying.
 ```
 
-### `clean_fork`
+### Clean Forking
 
 ```ruby
  clean_fork { puts "I'm another process" }
