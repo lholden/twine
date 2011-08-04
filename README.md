@@ -81,10 +81,9 @@ As a MixIn
 ## Unimplemented
  * Pooling
 
-## Links
-[optitron]: https://github.com/joshbuddy/optitron  "Sensible, minimal simple options parsing and dispatching for Ruby. Build a CLI with no fuss."
-[ZeroMQ]: http://www.zeromq.org/  "The Intelligent Transport Layer"
-
-
 ## Copyright
 Copyright (c) 2011 Lori Holden. See LICENSE.txt for further details.
+
+
+[optitron]: https://github.com/joshbuddy/optitron  "Sensible, minimal simple options parsing and dispatching for Ruby. Build a CLI with no fuss."
+[ZeroMQ]: http://www.zeromq.org/  "The Intelligent Transport Layer"
