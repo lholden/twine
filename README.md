@@ -13,7 +13,7 @@ Twine is still in very early stages, you have been warned.
 
 ## Examples
 
-Look at the file `examples/daemon/daemon.rb` for an example that uses backgrounding, children, and IPC (ZeroMQ).
+See the `examples` directory more detailed examples, including uses of backgrounding, children, and IPC (ZeroMQ).
 
 ### Background a process
 ```ruby
