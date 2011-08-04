@@ -74,7 +74,7 @@ As a MixIn
 
 ### Is there an IPC mechanism?
 
-Nope! Why re-invent the wheel, [ZeroMQ][zeromq] does a fantastic job of this already.
+Nope! Why re-invent the wheel when [ZeroMQ][zeromq] does a fantastic job of this already.
 
 ```ruby
  ctx = ZMQ::Context.new(1)
