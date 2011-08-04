@@ -1,7 +1,9 @@
 #!/bin/env ruby
 
 #
-# This stuff will look a lot better with Twine::Pool implemented
+# This stuff will look a lot better with Twine::Pool implemented. 
+# Also looking into a crash issue that happens when the children are 
+# started after the master's 0mq socket is setup.
 #
 
 require "rubygems"
