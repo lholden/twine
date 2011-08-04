@@ -27,10 +27,6 @@ Check out the example at https://github.com/lholden/twine/tree/master/examples/d
 
 ## Examples
 
-### IPC / ZeroMQ, options parsing, advanced examples
-
-Please see the [examples directory] [examples].
-
 ### Background a process
 ```ruby
  Twine.daemonize {:output_to => '/tmp/my.log'}
@@ -89,6 +85,10 @@ As a MixIn
 ```ruby
  Twine.clean_fork { puts "I'm another process" }
 ```
+
+### IPC / ZeroMQ, options parsing, advanced examples
+
+Please see the [examples directory] [examples].
 
 ## To be implemented
  * Pooling
