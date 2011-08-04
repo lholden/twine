@@ -13,7 +13,7 @@ Twine on the other hand is intended to be light weight and easy to use. Inspired
 
 `Process.fork` gets the job done but leaves a lot of the bootstrapping to you; Forking off as a daemon can be a bit of black magic for example. Twine provides a lot of this bootstrapping for you.
 
-### How do I create a background/daemon process?
+### How do I create a daemon process?
 ```ruby
  Twine.daemonize {:output_to => '/tmp/my.log'}
  puts "This is now a backgrounded 'daemon' process"
