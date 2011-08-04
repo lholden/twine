@@ -2,7 +2,8 @@ class Dispatcher
   include Twine::ChildMixin
 
   def run
-    puts "Dispatcher: Started"
+    log = Logger.new(STDOUT)
+    log.info "Dispatcher Started"
 
     ctx = ZMQ::Context.new(1)
     socket = ctx.socket(ZMQ::PUSH)
@@ -17,12 +18,12 @@ class Dispatcher
         3.times do
           msg = rand(36**10).to_s(36)
           socket.send_string(msg)
-          puts "Dispatcher: #{msg}"
+          log.info "Dispatching: #{msg}"
         end
         sleep 4
       end
     ensure
-      puts "Dispatcher: Shutting down"
+      log.info "Dispatcher shutting down"
       socket.close 
     end
 

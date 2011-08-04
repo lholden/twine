@@ -10,6 +10,7 @@ require "bundler/setup"
 require 'twine'
 require 'ffi-rzmq'
 require 'optitron'
+require 'logger'
 
 ROOT_PATH = File.expand_path(File.dirname(__FILE__))
 TMP_PATH = File.join(ROOT_PATH, 'tmp')
@@ -27,7 +28,9 @@ class Master
   def start
     puts "Starting Master"
     Twine.daemonize(:pid_file => PID_FILE, :output_to => LOG_FILE)
-    puts "\n\n\nMaster: Started"
+    puts "\n\n\n"
+    log = Logger.new(STDOUT)
+    log.info "Master started"
 
     slaves = [Dispatcher.new]
     3.times {slaves << Consumer.new}
@@ -36,7 +39,7 @@ class Master
     trap('TERM') { slaves.each {|s| s.stop} }
     slaves.each {|s| s.join}
 
-    puts "Master: Shutting down"
+    log.info "Master shutting down"
   rescue Twine::PidFileException => e
     die(e.message)
   end

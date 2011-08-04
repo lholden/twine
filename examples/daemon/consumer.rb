@@ -2,7 +2,8 @@ class Consumer
   include Twine::ChildMixin
 
   def run
-    puts "#{Process.pid}: Started"
+    log = Logger.new(STDOUT)
+    log.info "Consumer started"
     
     ctx = ZMQ::Context.new(1)
     socket = ctx.socket(ZMQ::PULL)
@@ -15,17 +16,17 @@ class Consumer
     begin
       while running
         while msg = socket.recv_string(ZMQ::NOBLOCK) do
-          puts "#{Process.pid}: I just consumed: #{msg}"
+          log.info "I just consumed: #{msg}"
         end
         sleep 1
       end
     ensure
-      puts "#{Process.pid}: Shutting Down"
+      log.info "Consumer shutting Down"
       socket.close
     end
 
   rescue ZMQ::SocketError => e
-    puts "Socket terminated: #{e.message}"
+    log.error "Socket terminated: #{e.message}"
   end
 end
 
