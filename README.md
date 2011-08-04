@@ -13,21 +13,7 @@ Twine on the other hand is intended to be light weight and easy to use. Inspired
 
 `Process.fork` gets the job done but leaves a lot of the bootstrapping to you; Forking off as a daemon can be a bit of black magic for example. Twine provides a lot of this bootstrapping for you.
 
-### Is there an easy way to accept command line arguments for my daemon?
-
-Not built in. Check out [Optitron][optitron] for a great solution to this.
-
-### Is there an IPC mechanism?
-
-Nope! Why re-invent the wheel, [ZeroMQ][zeromq] does a fantastic job of this already.
-
-### You mention [Optitron][optitron] and [ZeroMQ][zeromq], how do I use them with Twine?
-
-Check out the example at https://github.com/lholden/twine/tree/master/examples/daemon
-
-## Examples
-
-### Background a process
+### How do I create a background/daemon process?
 ```ruby
  Twine.daemonize {:output_to => '/tmp/my.log'}
  puts "This is now a backgrounded 'daemon' process"
@@ -37,7 +23,7 @@ Check out the example at https://github.com/lholden/twine/tree/master/examples/d
  end
 ```
 
-### Child process
+### How do I create a child process?
 As an object
 
 ```ruby
@@ -80,15 +66,46 @@ As a MixIn
  c.kill # oi... that was annoying.
 ```
 
-### Clean Forking
+### I just want simpler forking!
 
 ```ruby
  Twine.clean_fork { puts "I'm another process" }
 ```
 
-### IPC / ZeroMQ, options parsing, advanced examples
+### Is there an IPC mechanism?
 
-Please see the [examples directory] [examples].
+Nope! Why re-invent the wheel, [ZeroMQ][zeromq] does a fantastic job of this already.
+
+```ruby
+ ctx = ZMQ::Context.new(1)
+
+ outbound = ctx.socket(ZMQ::PUSH)
+ outbound.bind("ipc:///tmp/my.ipc")
+ outbound.setsockopt(ZMQ::LINGER, 0)
+
+ inbount = ctx.socket(ZMQ::PULL)
+ inbount.connect("ipc://#{IPC_FILE}")
+ inbount.setsockopt(ZMQ::LINGER, 0)
+
+ outbound.send_string("world")
+
+ puts("Hello %s" %[inbound.socket.recv_string])
+
+ outbound.close
+ inbound.close
+```
+
+### Is there an easy way to accept command line arguments for my daemon?
+
+Not built in. Check out awesome [Optitron][optitron] for a great solution to this.
+
+### You mention [Optitron][optitron] and [ZeroMQ][zeromq], how do I use them with Twine?
+
+Check out the example at https://github.com/lholden/twine/tree/master/examples/daemon
+
+### Are there any other examples?
+
+Check out the [examples][examples] directory.
 
 ## To be implemented
  * Pooling
