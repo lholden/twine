@@ -9,6 +9,10 @@ Twine on the other hand is intended to be light weight and easy to use. Inspired
 
 ## Questions and Answers
 
+### Why use Twine instead of `Process.fork`?
+
+`Process.fork` gets the job done but leaves a lot of the bootstrapping to you; Forking off as a daemon can be a bit of black magic for example. Twine provides a lot of this bootstrapping for you.
+
 ### Is there an easy way to accept command line arguments for my daemon?
 
 Not built in. Check out [Optitron][optitron] for a great solution to this.
@@ -78,7 +82,13 @@ As a MixIn
  c.kill # oi... that was annoying.
 ```
 
-## Unimplemented
+### `clean_fork`
+
+```ruby
+ clean_fork { puts "I'm another process" }
+```
+
+## To be implemented
  * Pooling
 
 ## Copyright
