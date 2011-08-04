@@ -83,9 +83,9 @@ Nope! Why re-invent the wheel when [ZeroMQ][zeromq] does a fantastic job of this
  outbound.bind("ipc:///tmp/my.ipc")
  outbound.setsockopt(ZMQ::LINGER, 0)
 
- inbount = ctx.socket(ZMQ::PULL)
- inbount.connect("ipc:///tmp/my.ipc")
- inbount.setsockopt(ZMQ::LINGER, 0)
+ inbound = ctx.socket(ZMQ::PULL)
+ inbound.connect("ipc:///tmp/my.ipc")
+ inbound.setsockopt(ZMQ::LINGER, 0)
 
  outbound.send_string("world")
 
