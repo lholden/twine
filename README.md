@@ -17,7 +17,7 @@ Twine is still in very early stages, you have been warned.
 ```ruby
  Twine.daemonize {:output_to => '/tmp/my.log'}
  puts "This is now a backgrounded 'daemon' process"
- trap "TERM" { exit }
+ trap("TERM") { exit }
  while true do
    sleep 1
  end
