@@ -95,7 +95,7 @@ Nope! Why re-invent the wheel when [ZeroMQ][zeromq] does a fantastic job of this
 
 ### Is there an easy way to accept command line arguments for my daemon?
 
-Not built in. Check out awesome [Optitron][optitron] for a great solution to this.
+Not built in. Check out the awesome [Optitron][optitron] for a great solution to this.
 
 ### You mention [Optitron][optitron] and [ZeroMQ][zeromq], how do I use them with Twine?
 
