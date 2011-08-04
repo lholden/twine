@@ -85,7 +85,7 @@ As a MixIn
 ### Clean Forking
 
 ```ruby
- clean_fork { puts "I'm another process" }
+ Twine.clean_fork { puts "I'm another process" }
 ```
 
 ## To be implemented
