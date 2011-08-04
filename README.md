@@ -72,7 +72,7 @@ As a MixIn
  Twine.clean_fork { puts "I'm another process" }
 ```
 
-### Is there an IPC mechanism?
+### Is there an IPC / Message Queue mechanism?
 
 Nope! Why re-invent the wheel when [ZeroMQ][zeromq] does a fantastic job of this already.
 
