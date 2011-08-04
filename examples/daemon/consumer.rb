@@ -23,6 +23,7 @@ class Consumer
     ensure
       log.info "Consumer shutting Down"
       socket.close
+      ctx.terminate
     end
 
   rescue ZMQ::SocketError => e

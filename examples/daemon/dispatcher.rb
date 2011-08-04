@@ -25,6 +25,7 @@ class Dispatcher
     ensure
       log.info "Dispatcher shutting down"
       socket.close 
+      ctx.terminate
     end
 
   end
