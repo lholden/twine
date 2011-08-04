@@ -19,7 +19,11 @@ Not built in. Check out [Optitron][optitron] for a great solution to this.
 
 ### Is there an IPC mechanism?
 
-Nope! Why re-invent the wheel, [ZeroMQ][zeromq] does a fantastic job of this already.  
+Nope! Why re-invent the wheel, [ZeroMQ][zeromq] does a fantastic job of this already.
+
+### You mention [Optitron][optitron] and [ZeroMQ][zeromq], how do I use them with Twine?
+
+Check out the example at https://github.com/lholden/twine/tree/master/examples/daemon
 
 ## Examples
 
