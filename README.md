@@ -2,14 +2,10 @@
 
 A light-weight forking library.
 
-While there are many other libraries available to handle forking, most of them 
-seem to be either very specific, or want to include way too much. 
+While there are many other libraries available to work with forked processes, most of them 
+seem to be either very specific or want to include way too much.
 
-Twine on the other hand is intended to be light weight and easy to use. 
-Inspired by Fibers and Threads, a Twine for producing 'heavy weight' (forked 
-/ multi-process) parallelism.
-
-Twine is still in very early stages, you have been warned.
+Twine on the other hand is intended to be light weight and easy to use. Inspired by Fibers and Threads, a Twine is for producing 'heavy weight' (forked / multi-process) parallelism.
 
 ## Questions and Answers
 
