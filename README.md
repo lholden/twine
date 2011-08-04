@@ -13,6 +13,8 @@ Twine is still in very early stages, you have been warned.
 
 ## Examples
 
+Look at the file `examples/daemon/daemon.rb` for an example that uses backgrounding, children, and IPC (ZeroMQ).
+
 ### Background a process
 ```ruby
  Twine.daemonize {:output_to => '/tmp/my.log'}
@@ -65,7 +67,9 @@ As a MixIn
  sleep 5
  c.kill # oi... that was annoying.
 ```
-NOTE: Examples of Child processes, pooling, and IPC to come.
+
+## Unimplemented
+ * Pooling
 
 ## Copyright
 Copyright (c) 2011 Lori Holden. See LICENSE.txt for further details.

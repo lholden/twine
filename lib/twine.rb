@@ -2,7 +2,9 @@ module Twine
   autoload :Child, 'twine/child'
   autoload :ChildMixin, 'twine/child_mixin'
 
-  DaemonizeException = Class.new Exception
+  DaemonizeException     = Class.new Exception
+  ProcessLeaderException = Class.new DaemonizeException
+  PidFileException       = Class.new DaemonizeException
 
   DEV_NULL = "/dev/null"
 
@@ -23,7 +25,7 @@ module Twine
     # Let go of the terminal and become a process leader
     exit if clean_fork
     unless sid = Process.setsid
-      raise(DaemonizeException, "unable to become a process leader")
+      raise(ProcessLeaderException, "unable to become a process leader")
     end
 
     Dir.chdir(chdir_path)    unless chdir_path.nil?
@@ -50,7 +52,7 @@ module Twine
 
 protected
   def self.setup_pid_file(path)
-    raise(ArgumentError, "Pid file #{path} already present!") if File.file?(path)
+    raise(PidFileException, "Pid file #{path} already present!") if File.file?(path)
     pid = Process.pid
 
     File.open(path, 'w') {|f| f << pid}
@@ -92,4 +94,5 @@ protected
   def self.normalize_traps
     (Signal.list.keys - ['VTALRM']).each {|s| trap(s, 'DEFAULT')}
   end
+
 end

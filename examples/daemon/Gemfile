@@ -1,0 +1,6 @@
+source :rubygems
+
+gem 'twine', :path => '../../'
+gem 'ffi'
+gem 'ffi-rzmq'
+gem 'optitron'

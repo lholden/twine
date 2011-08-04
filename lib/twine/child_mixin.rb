@@ -3,7 +3,7 @@ module Twine
     def start
       return if running?
 
-      unless methods.include? "run"
+      unless self.methods.include? :run
         raise ArgumentError, "a run method must be defined!"
       end
 
@@ -40,6 +40,8 @@ module Twine
 
     # Send a posix compatible signal supported on your system
     def signal(name)
+      return nil unless running?
+
       name = case name
              when Symbol
                name.to_s.upcase
