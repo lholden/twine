@@ -23,6 +23,46 @@ Twine is still in very early stages, you have been warned.
  end
 ```
 
+### Child process
+As an object
+```ruby
+ # Create a new child
+ c = Twine::Child.new do
+   puts "Time to do MP work!"
+   sleep 5
+   puts "Phew, that was hard"
+ end
+ c.start
+ 
+ # Is it running?
+ c.running?  # >>> true
+
+ # Send it a signal
+ c.signal :usr1
+
+ # blocking wait for it to exit
+ c.join     
+```
+
+As a MixIn
+```ruby
+ class MyChild
+   include Twine::ChildMixin
+ protected
+   def run
+     trap("TERM") { exit }
+     while true do
+       puts "annoying yet? Then terminate me!!!"
+       sleep 1
+     end
+   end
+ end
+
+ c = MyChild.new
+ c.start
+ sleep 5
+ c.kill # oi... that was annoying.
+```
 NOTE: Examples of Child processes, pooling, and IPC to come.
 
 ## Copyright
