@@ -3,7 +3,8 @@ module Twine
     def start
       return if running?
 
-      unless self.methods.include? :run
+      # Ruby 1.9 uses symbols, 1.8 uses strings :/
+      unless [:run, "run"].any? {|m| self.methods.include? m}
         raise ArgumentError, "a run method must be defined!"
       end
 
