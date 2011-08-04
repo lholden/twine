@@ -25,6 +25,7 @@ Twine is still in very early stages, you have been warned.
 
 ### Child process
 As an object
+
 ```ruby
  # Create a new child
  c = Twine::Child.new do
@@ -45,6 +46,7 @@ As an object
 ```
 
 As a MixIn
+
 ```ruby
  class MyChild
    include Twine::ChildMixin
