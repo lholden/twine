@@ -11,6 +11,16 @@ Inspired by Fibers and Threads, a Twine for producing 'heavy weight' (forked
 
 Twine is still in very early stages, you have been warned.
 
+## Questions and Answers
+
+### Is there an easy way to accept command line arguments for my daemon?
+
+Not built in. Check out [Optitron][optitron] for a great solution to this.
+
+### Is there an IPC mechanism?
+
+Nope! Why re-invent the wheel, [ZeroMQ][zeromq] does a fantastic job of this already.  
+
 ## Examples
 
 See the `examples` directory more detailed examples, including uses of backgrounding, children, and IPC (ZeroMQ).
@@ -70,6 +80,11 @@ As a MixIn
 
 ## Unimplemented
  * Pooling
+
+## Links
+[optitron]: https://github.com/joshbuddy/optitron  "Sensible, minimal simple options parsing and dispatching for Ruby. Build a CLI with no fuss."
+[ZeroMQ]: http://www.zeromq.org/  "The Intelligent Transport Layer"
+
 
 ## Copyright
 Copyright (c) 2011 Lori Holden. See LICENSE.txt for further details.
