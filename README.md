@@ -78,7 +78,7 @@ Nope! Why re-invent the wheel when [ZeroMQ][zeromq] does a fantastic job of this
 
 ```ruby
  a = Twine::Child.new do
-   ctx = ZMQ::Context.new(1)
+   ctx = ZMQ::Context.new(1)  # Unlike threads, each fork needs its own context
    outbound = ctx.socket(ZMQ::PUSH)
    outbound.bind("ipc:///tmp/my.ipc")
    outbound.send_string("world")
