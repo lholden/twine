@@ -95,8 +95,8 @@ Nope! Why re-invent the wheel when [ZeroMQ][zeromq] does a fantastic job of this
    ctx.terminate
  end
 
- a.start
- b.start
+ a.start; b.start
+ a.join; b.join
 ```
 
 ### Is there an easy way to accept command line arguments for my daemon?
