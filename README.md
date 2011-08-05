@@ -20,8 +20,8 @@ Twine on the other hand is intended to be light weight and easy to use. Inspired
   * close off IO left over from the originating process
   * initialize a new seed for randomization
   * clean process traps created from the originating process
-* child process API similar to threads
-  * prevents zombie processes (Grrr, aaarg, brain!)
+* Twine::Child API similar to Thread
+  * designed to prevent zombie processes (Grrr, aaarg, brain!)
 
 
 ### How do I create a daemon process?
