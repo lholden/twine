@@ -86,7 +86,7 @@ Nope! Why re-invent the wheel when [ZeroMQ][zeromq] does a fantastic job of this
    ctx.terminate
  end
 
- b = Twine::Child.do 
+ b = Twine::Child.new do 
    ctx = ZMQ::Context.new(1)
    inbound = ctx.socket(ZMQ::PULL)
    inbound.connect("ipc:///tmp/my.ipc")
