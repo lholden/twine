@@ -81,7 +81,7 @@ As a MixIn
 ### I just want simpler forking!
 
 ```ruby
- Twine.clean_fork { puts "I'm another process" }
+ pid = Twine.clean_fork { puts "I'm another process" }
 ```
 
 ### Is there an IPC / Message Queue mechanism?
