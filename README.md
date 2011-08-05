@@ -13,6 +13,15 @@ Twine on the other hand is intended to be light weight and easy to use. Inspired
 
 `Process.fork` gets the job done but leaves a lot of the bootstrapping to you; Forking off as a daemon can be a bit of black magic for example. Twine provides a lot of this bootstrapping for you.
 
+* daemons / long running processes
+  * pid file creation
+  * output redirection
+* clean forking
+  * close off IO left over from the originating process
+  * initialize a new seed for randomization
+  * clean process traps created from the originating process
+
+
 ### How do I create a daemon process?
 ```ruby
  pid = Twine.daemonize {:output_to => '/tmp/my.log'} do
@@ -86,7 +95,7 @@ Nope! Why re-invent the wheel when [ZeroMQ][zeromq] does a fantastic job of this
  require 'ffi-rzmq'
 
  a = Twine::Child.new do
-   ctx = ZMQ::Context.new(1)  # Unlike threads, each fork needs its own context
+   ctx = ZMQ::Context.new  # Unlike threads, each fork needs its own context
    outbound = ctx.socket(ZMQ::PUSH)
    outbound.bind("ipc:///tmp/my.ipc")
    outbound.send_string("world")
@@ -95,7 +104,7 @@ Nope! Why re-invent the wheel when [ZeroMQ][zeromq] does a fantastic job of this
  end
 
  b = Twine::Child.new do 
-   ctx = ZMQ::Context.new(1)
+   ctx = ZMQ::Context.new
    inbound = ctx.socket(ZMQ::PULL)
    inbound.connect("ipc:///tmp/my.ipc")
    puts("Hello %s" %[inbound.recv_string])

@@ -41,7 +41,7 @@ class Master
       3.times {slaves << Consumer.new}
 
       slaves.each {|s| s.start}
-      trap('TERM') { slaves.each {|s| s.stop} }
+      trap('TERM') { slaves.each {|s| s.signal :INT} }
       slaves.each {|s| s.join}
 
       log.info "Master shutting down"

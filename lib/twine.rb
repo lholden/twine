@@ -114,7 +114,8 @@ protected
 
   # Make sure that no traps follow us over to the new forked process
   def self.normalize_traps #:nodoc:
-    (Signal.list.keys - ['VTALRM']).each {|s| trap(s, 'DEFAULT')}
+    (Signal.list.keys - ['VTALRM', 'INT']).each {|s| trap(s, 'DEFAULT')}
+    trap('INT', 'IGNORE')
   end
 
 end
