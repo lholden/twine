@@ -32,20 +32,21 @@ class Master
 
   desc "Start up the daemon"
   def start
-    puts "Starting Master"
-    Twine.daemonize(:pid_file => PID_FILE, :output_to => LOG_FILE)
-    puts "\n\n\n"
-    log = Logger.new(STDOUT)
-    log.info "Master started"
+    pid = Twine.daemonize(:pid_file => PID_FILE, :output_to => LOG_FILE) do
+      puts "\n\n\n"
+      log = Logger.new(STDOUT)
+      log.info "Master started"
 
-    slaves = [Dispatcher.new]
-    3.times {slaves << Consumer.new}
+      slaves = [Dispatcher.new]
+      3.times {slaves << Consumer.new}
 
-    slaves.each {|s| s.start}
-    trap('TERM') { slaves.each {|s| s.stop} }
-    slaves.each {|s| s.join}
+      slaves.each {|s| s.start}
+      trap('TERM') { slaves.each {|s| s.stop} }
+      slaves.each {|s| s.join}
 
-    log.info "Master shutting down"
+      log.info "Master shutting down"
+    end
+    puts "Daemon started (pid: #{pid})"
   rescue Twine::PidFileException => e
     die(e.message)
   end

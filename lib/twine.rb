@@ -17,12 +17,13 @@ module Twine
 
   # Allow the current process to become backgrounded
   #
+  # Expects a block to be passed in.
   # options:
   #   :pid_file  => path, or nil
   #   :output_to => path, io, or nil
   #
   # returns the process group id
-  def self.daemonize(options = {})
+  def self.daemonize(options = {}, &bl)
     options = { 
       :chdir_path => '/',
       :output_to  => :null
@@ -32,33 +33,37 @@ module Twine
     output_to  = options.delete :output_to
     chdir_path = options.delete :chdir_path
 
-    # Let go of the terminal and become a process leader
-    exit if clean_fork
-    unless sid = Process.setsid
-      raise(ProcessLeaderException, "unable to become a process leader")
+    # Fork and allow the new process to become the process leader
+    clean_fork do |pid|
+      unless sid = Process.setsid
+        raise(ProcessLeaderException, "unable to become a process leader")
+      end
+
+      Dir.chdir(chdir_path)    unless chdir_path.nil?
+      setup_pid_file(pid_file) unless pid_file.nil?
+      redirect_std_io(output_to)
+
+      bl.call(pid)
+      exit
     end
+  end
 
-    Dir.chdir(chdir_path)    unless chdir_path.nil?
-    setup_pid_file(pid_file) unless pid_file.nil?
-    redirect_std_io(output_to)
-
-    sid
+  class << self
+    alias :long_running :daemonize
   end
   
   # Cleanly fork off a new process
-  def self.clean_fork
+  # 
+  # Expects a block to be passed in.
+  def self.clean_fork(&bl)
     (pid = Process.fork) and return pid
 
     srand   
     close_nonstd_io
     normalize_traps
 
-    if block_given?
-      yield 
-      exit
-    end
-
-    nil
+    bl.call(Process.pid)
+    exit
   end
 
 protected

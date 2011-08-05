@@ -15,12 +15,15 @@ Twine on the other hand is intended to be light weight and easy to use. Inspired
 
 ### How do I create a daemon process?
 ```ruby
- Twine.daemonize {:output_to => '/tmp/my.log'}
- puts "This is now a backgrounded 'daemon' process"
- trap("TERM") { exit }
- while true do
-   sleep 1
+ pid = Twine.daemonize {:output_to => '/tmp/my.log'} do
+   puts "This is now a backgrounded 'daemon' process"
+   trap("TERM") { exit }
+   while true do
+     sleep 1
+   end
  end
+
+ puts "I just made a daemon with pid #{pid}"
 ```
 
 ### How do I create a child process?
