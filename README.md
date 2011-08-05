@@ -77,6 +77,11 @@ As a MixIn
 Nope! Why re-invent the wheel when [ZeroMQ][zeromq] does a fantastic job of this already.
 
 ```ruby
+ require 'rubygems'
+ require "bundler/setup"
+ require 'twine'
+ require 'ffi-rzmq'
+
  a = Twine::Child.new do
    ctx = ZMQ::Context.new(1)  # Unlike threads, each fork needs its own context
    outbound = ctx.socket(ZMQ::PUSH)
