@@ -77,20 +77,26 @@ As a MixIn
 Nope! Why re-invent the wheel when [ZeroMQ][zeromq] does a fantastic job of this already.
 
 ```ruby
- ctx = ZMQ::Context.new(1)
+ a = Twine::Child.new do
+   ctx = ZMQ::Context.new(1)
+   outbound = ctx.socket(ZMQ::PUSH)
+   outbound.bind("ipc:///tmp/my.ipc")
+   outbound.send_string("world")
+   outbound.close
+   ctx.terminate
+ end
 
- outbound = ctx.socket(ZMQ::PUSH)
- outbound.bind("ipc:///tmp/my.ipc")
+ b = Twine::Child.do 
+   ctx = ZMQ::Context.new(1)
+   inbound = ctx.socket(ZMQ::PULL)
+   inbound.connect("ipc:///tmp/my.ipc")
+   puts("Hello %s" %[inbound.socket.recv_string])
+   inbound.close
+   ctx.terminate
+ end
 
- inbound = ctx.socket(ZMQ::PULL)
- inbound.connect("ipc:///tmp/my.ipc")
-
- outbound.send_string("world")
-
- puts("Hello %s" %[inbound.socket.recv_string])
-
- outbound.close
- inbound.close
+ a.start
+ b.start
 ```
 
 ### Is there an easy way to accept command line arguments for my daemon?
