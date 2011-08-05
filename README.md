@@ -90,7 +90,7 @@ Nope! Why re-invent the wheel when [ZeroMQ][zeromq] does a fantastic job of this
    ctx = ZMQ::Context.new(1)
    inbound = ctx.socket(ZMQ::PULL)
    inbound.connect("ipc:///tmp/my.ipc")
-   puts("Hello %s" %[inbound.socket.recv_string])
+   puts("Hello %s" %[inbound.recv_string])
    inbound.close
    ctx.terminate
  end
